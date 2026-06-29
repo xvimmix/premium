@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>📜</title>
+  <link rel="icon" href="logo.png" type="image/png">
+
+  <!-- Fonts + Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous">
+
+  <style>
+    :root{
+      --bg-a: #040006;
+      --bg-b: #0f0714;
+      --glass: rgba(255,255,255,0.03);
+      --muted: #cfc6dd;
+      --card-border: rgba(155,60,255,0.10);
+      --radius: 14px;
+      --glass-strong: rgba(255,255,255,0.04);
+      --focus: 3px;
+      --reveal-ease: cubic-bezier(.18,.9,.22,1);
+    }
+
+    /* Reset & base */
+    *{box-sizing:border-box}
+    html,body{height:100%; margin:0; font-family:"Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background: linear-gradient(180deg,var(--bg-a),var(--bg-b)); color:var(--muted); -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
+
+    /* Layout */
+    .wrap{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:28px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    /* subtle background blobs (performant: only CSS gradients + slow animation) */
+    .bg-blur {
+      position: absolute;
+      inset: -20%;
+      z-index:0;
+      pointer-events:none;
+      background:
+        radial-gradient(400px 300px at 10% 20%, rgba(255,102,178,0.12), transparent 20%),
+        radial-gradient(360px 260px at 85% 70%, rgba(124,58,237,0.10), transparent 18%),
+        radial-gradient(520px 420px at 20% 85%, rgba(94,234,212,0.06), transparent 25%);
+      filter: blur(48px) saturate(1.05);
+      transform: translateZ(0);
+      animation: bgDrift 28s linear infinite;
+      opacity:0.9;
+    }
+    @keyframes bgDrift {
+      0%{ transform: translateX(0) translateY(0) }
+      50%{ transform: translateX(12px) translateY(-8px) }
+      100%{ transform: translateX(0) translateY(0) }
+    }
+
+    /* Card */
+    .card {
+      z-index:2;
+      width:min(920px,96%);
+      border-radius:var(--radius);
+      padding:34px;
+      display:grid;
+      grid-template-columns: 1fr 320px;
+      gap:22px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.12));
+      border: 1px solid var(--card-border);
+      box-shadow: 0 18px 48px rgba(6,6,12,0.6);
+      backdrop-filter: blur(10px) saturate(1.06);
+      align-items:start;
+      transition: transform .32s ease, box-shadow .32s ease;
+    }
+    .card:focus-within { box-shadow: 0 28px 68px rgba(6,6,12,0.7); transform: translateY(-4px); }
+
+    @media (max-width:900px){
+      .card{ grid-template-columns: 1fr; padding:20px; gap:16px; }
+    }
+
+    /* -------------------------
+       Minimal "reveal" tweaks
+       - Keeps everything else unchanged
+       - Card starts hidden (opacity+translate) then gets .revealed to show
+       ------------------------- */
+    .card {
+      /* start hidden for reveal */
+      opacity: 0;
+      transform: translateY(14px) scale(.995);
+      transition: opacity .72s var(--reveal-ease), transform .72s var(--reveal-ease), box-shadow .6s ease;
+      will-change: opacity, transform, box-shadow;
+      pointer-events: none; /* block interactions until revealed */
+    }
+
+    .card.revealed {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+      /* slightly stronger shadow when revealed (kept subtle) */
+      box-shadow: 0 22px 64px rgba(6,6,12,0.58);
+    }
+
+    /* Brand */
+    .brand {
+      display:inline-block;
+      font-family: "JetBrains Mono", monospace;
+      font-weight:700;
+      color: #caa9ff;
+      letter-spacing:0.6px;
+      font-size:11px;
+      padding:6px 10px;
+      border-radius:9px;
+      background: linear-gradient(90deg, rgba(155,60,255,0.06), rgba(90,26,214,0.03));
+    }
+
+    /* Title */
+    h1 {
+      margin:14px 0 6px;
+      font-size:36px;
+      color: #fff;
+      line-height:1.03;
+      font-weight:800;
+      display:flex;
+      gap:12px;
+      align-items:center;
+      position:relative;
+    }
+
+    /* ---------------------------
+       Animated color for the text
+       Only color animation added here.
+       --------------------------- */
+
+    /* HAPPY: animated pink gradient */
+    .happy {
+      font-weight:900;
+      font-size:1.05em;
+      /* multi-stop gradient animated via background-position */
+      background: linear-gradient(90deg,
+        #ff66b2 0%,
+        #ff3fa0 25%,
+        #ff9ad1 50%,
+        #ff66b2 75%,
+        #ffb3e6 100%);
+      background-size: 300% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 6px 16px rgba(255,102,178,0.12));
+      position:relative;
+      animation: happyColor 6s linear infinite;
+    }
+
+    @keyframes happyColor {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* script: animated purple → teal gradient */
+    .script {
+      font-weight:800;
+      font-size:1.05em;
+      background: linear-gradient(90deg,
+        #7c3aed 0%,
+        #9b6bff 20%,
+        #5eead4 50%,
+        #7c3aed 80%,
+        #9b6bff 100%);
+      background-size: 300% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 8px 22px rgba(124,58,237,0.12));
+      position:relative;
+      animation: scriptColor 7s linear infinite;
+    }
+
+    @keyframes scriptColor {
+      0%   { background-position: 0% 50%; }
+      40%  { background-position: 60% 50%; }
+      80%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* small shimmer line under title (subtle) */
+    .title-shim {
+      height:6px;
+      border-radius:6px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.06), rgba(255,255,255,0.01));
+      width:60%;
+      margin-top:10px;
+      opacity:0.45;
+    }
+
+    /* subtitle */
+    .lead { margin-top:6px; color:#d9cff0; opacity:0.9; font-size:14px; }
+
+    /* Controls */
+    .controls{ display:flex; flex-direction:column; gap:12px; align-items:stretch; justify-content:flex-start; }
+    .btn {
+      position:relative;
+      overflow:hidden;
+      display:flex;
+      gap:12px;
+      align-items:center;
+      justify-content:center;
+      padding:12px 14px;
+      border-radius:10px;
+      cursor:pointer;
+      user-select:none;
+      border:1px solid rgba(255,255,255,0.04);
+      font-weight:700;
+      font-size:15px;
+      transition: transform .12s ease, box-shadow .12s ease, background .18s ease;
+      background: linear-gradient(180deg, rgba(255,255,255,0.008), rgba(0,0,0,0.04));
+      color:var(--muted);
+    }
+    .btn:active { transform: translateY(1px); }
+    .btn:focus { outline: none; box-shadow: 0 0 0 var(--focus) rgba(124,58,237,0.14); }
+
+    .btn.primary {
+      background: linear-gradient(90deg,#7c3aed,#5a1ad6);
+      color: #fff;
+      border: none;
+      box-shadow: 0 10px 28px rgba(124,58,237,0.12);
+    }
+    .btn.secondary {
+      background: rgba(255,255,255,0.02);
+    }
+
+    .btn .icon { width:28px; height:28px; display:inline-flex; align-items:center; justify-content:center; font-size:16px; opacity:0.95; }
+
+    /* ripple */
+    .ripple { position:absolute; border-radius:50%; transform: scale(0); background: rgba(255,255,255,0.12); animation: ripple .6s ease-out forwards; pointer-events:none; }
+    @keyframes ripple { to { transform: scale(3.8); opacity:0; } }
+
+    /* toast */
+    .toast {
+      position:fixed;
+      left:50%;
+      bottom:36px;
+      transform: translate3d(-50%, 12px, 0);
+      background: linear-gradient(90deg, rgba(124,58,237,0.12), rgba(94,234,212,0.04));
+      color: #fff;
+      padding:10px 18px;
+      border-radius:999px;
+      box-shadow: 0 10px 36px rgba(8,6,24,0.6);
+      font-weight:700;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      opacity:0;
+      pointer-events:none;
+      transition: transform .25s cubic-bezier(.2,.9,.1,1), opacity .25s ease;
+    }
+    .toast.show { transform: translate3d(-50%, 0, 0); opacity:1; pointer-events:auto; }
+
+    /* footer small */
+    .meta { margin-top:12px; color:#cdbff0; font-size:13px; opacity:0.95; }
+
+    /* accessibility and reduced motion: disable color animations if requested */
+    @media (prefers-reduced-motion: reduce){
+      .bg-blur, .card, .ripple, .btn, .toast { animation: none !important; transition: none !important; }
+      .happy, .script { animation: none !important; background-size: auto !important; }
+      /* If user prefers reduced motion, reveal card immediately without animation */
+      .card { opacity:1 !important; transform:none !important; pointer-events:auto !important; box-shadow: 0 18px 48px rgba(6,6,12,0.6) !important; }
+    }
+
+    /* Responsive refinements */
+    @media (max-width:520px){
+      h1{ font-size:28px; gap:8px; }
+      .script, .happy{ font-size:1em; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap" role="main" aria-labelledby="pageTitle">
+    <div class="bg-blur" aria-hidden="true"></div>
+
+    <div class="card" role="region" aria-label="HAPPY script card">
+      <div>
+        <span class="brand" aria-hidden="true">Dev by HAPPY script</span>
+
+        <!-- Title: HAPPY (pink animated) + script (purple-teal animated) -->
+        <h1 id="pageTitle">
+          <span class="happy">HAPPY</span>
+          <span class="script">script</span>
+        </h1>
+
+        <div class="title-shim" aria-hidden="true"></div>
+        <p class="lead">Join my Discord community to stay updated on HAPPY scripts, or you can report any issues you encounter while using HAPPY scripts.</p>
+
+        <div class="meta" aria-hidden="true">Please don't try to read the raw script 😭.</div>
+      </div>
+
+      <div class="controls" role="region" aria-label="Actions">
+        <button id="discordBtn" class="btn primary" type="button" title="Open Discord (new tab)" aria-label="Open Discord">
+          <span class="icon" aria-hidden="true"><i class="fab fa-discord"></i></span>
+          <span>Join Discord</span>
+        </button>
+
+        <button id="copyBtn" class="btn secondary" type="button" title="Copy script to clipboard" aria-label="Copy script to clipboard">
+          <span class="icon" aria-hidden="true"><i class="fa-solid fa-copy"></i></span>
+          <span>Copy script</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- toast (live region for screen readers) -->
+  <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true">
+    <span id="toastText">Copied</span>
+  </div>
+
+  <!-- Hidden script content (text/plain so browsers won't execute) -->
+  <script id="scriptContent" type="text/plain">
+loadstring(game:HttpGet("https://happyscript.happy37135535.workers.dev/"))()
+  </script>
+
+  <script>
+    (function () {
+      const DISCORD_URL = "https://discord.gg/Y5r4f4BYtm";
+      const discordBtn = document.getElementById('discordBtn');
+      const copyBtn = document.getElementById('copyBtn');
+      const toastEl = document.getElementById('toast');
+      const toastText = document.getElementById('toastText');
+      const scriptTag = document.getElementById('scriptContent');
+
+      // Open discord safely
+      discordBtn.addEventListener('click', () => {
+        try { window.open(DISCORD_URL, '_blank', 'noopener,noreferrer'); }
+        catch(e){ showToast('Could not open link', false); }
+      });
+
+      // Show toast helper
+      let toastTimer = null;
+      function showToast(message = 'Copied', ok = true) {
+        toastText.textContent = message;
+        toastEl.style.background = ok ? "linear-gradient(90deg, rgba(124,58,237,0.12), rgba(94,234,212,0.04))" : "linear-gradient(90deg, rgba(255,80,80,0.10), rgba(20,8,35,0.92))";
+        toastEl.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toastEl.classList.remove('show'), 2200);
+      }
+
+      // Copy logic with fallback
+      async function copyScript() {
+        const txt = scriptTag && scriptTag.textContent ? scriptTag.textContent.trim() : '';
+        if (!txt) { showToast('No script available', false); return; }
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            await navigator.clipboard.writeText(txt);
+          } else {
+            const ta = document.createElement('textarea');
+            ta.value = txt;
+            ta.style.position = 'fixed';
+            ta.style.left = '-9999px';
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+          }
+          showToast('Copied to clipboard', true);
+        } catch (err) {
+          showToast('Copy failed', false);
+        }
+      }
+
+      // Ripple visual for button (non-invasive)
+      function rippleEffect(ev) {
+        const btn = ev.currentTarget;
+        const rect = btn.getBoundingClientRect();
+        const r = document.createElement('span');
+        r.className = 'ripple';
+        const size = Math.max(rect.width, rect.height) * 1.2;
+        r.style.width = r.style.height = size + 'px';
+        r.style.left = (ev.clientX - rect.left - size / 2) + 'px';
+        r.style.top = (ev.clientY - rect.top - size / 2) + 'px';
+        btn.appendChild(r);
+        setTimeout(() => r.remove(), 700);
+      }
+
+      // Bind copy button
+      copyBtn.addEventListener('click', (ev) => {
+        // ripple
+        try { rippleEffect(ev); } catch(e) { /* ignore */ }
+        copyScript();
+      });
+
+      // Keyboard shortcut: Ctrl/Cmd + Shift + C
+      window.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 'c') {
+          const sel = window.getSelection();
+          if (sel && sel.toString().trim()) return;
+          e.preventDefault();
+          copyScript();
+        }
+      });
+
+      // Accessibility: ensure heading role (announce)
+      const title = document.getElementById('pageTitle');
+      if (title) title.setAttribute('role', 'heading');
+
+      // Respect reduced motion: stop background animation if user prefers reduced motion
+      const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.querySelectorAll('.bg-blur').forEach(n => n.style.animation = 'none');
+      }
+
+      // -----------------------------
+      // Minimal reveal logic (only this added)
+      // -----------------------------
+      // Keep it tiny and non-invasive: adds .revealed class to .card after a short delay.
+      (function revealCard() {
+        const card = document.querySelector('.card');
+        if (!card) return;
+
+        // If user prefers reduced motion, reveal instantly (CSS already forces this, but ensure class)
+        if (prefersReduced) {
+          card.classList.add('revealed');
+          return;
+        }
+
+        // Use RAF + timeout to ensure layout settled before animating
+        window.requestAnimationFrame(() => {
+          // small visible delay so user sees a subtle entrance (tweakable)
+          const DELAY = 420; // ms
+          setTimeout(() => {
+            card.classList.add('revealed');
+          }, DELAY);
+        });
+      })();
+
+    })();
+  </script>
+</body>
+</html>
