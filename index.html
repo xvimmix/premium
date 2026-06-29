@@ -141,7 +141,7 @@
         }
     </style>
     <script>
-        // Chặn chuột phải và phím F12
+        // Chặn chuột phải và phím F12 công thức cũ
         document.addEventListener('contextmenu', e => e.preventDefault());
         document.onkeydown = function(e) {
             if (e.keyCode === 123) return false; 
@@ -149,7 +149,7 @@
             if (e.ctrlKey && (e.keyCode === 67 || e.keyCode === 85 || e.keyCode === 83)) return false;
         };
 
-        // Hàm xử lý copy trực tiếp
+        // Hàm sao chép loadstring mượt mà
         function copyScript() {
             const currentUrl = window.location.href.split('?')[0].split('#')[0];
             const loadstringText = 'loadstring(game:HttpGet("' + currentUrl + '"))()';
@@ -184,17 +184,23 @@
             <li><strong>Instant Updates:</strong> 24/7 support & lag-free performance.</li>
         </ul>
 
+        <!-- Nút Join Discord hoạt động ổn định ổn định -->
         <a href="https://discord.gg/Rf6KWhJ8xE" target="_blank" class="btn-discord">
             <i class="fa-brands fa-discord"></i> Join Discord
         </a>
 
         <div class="code-box-container">
-            <div class="code-box" id="codeDisplay">
-                <script>
+            <!-- Ô chứa text -->
+            <div class="code-box" id="codeDisplay">Generating link...</div>
+            
+            <!-- Đoạn Script điền link chạy ngay lập tức, không gây lỗi giao diện -->
+            <script>
+                (function() {
                     const currentUrl = window.location.href.split('?')[0].split('#')[0];
-                    document.write('loadstring(game:HttpGet("' + currentUrl + '"))()');
-                </script>
-            </div>
+                    document.getElementById('codeDisplay').textContent = 'loadstring(game:HttpGet("' + currentUrl + '"))()';
+                })();
+            </script>
+
             <button class="btn-copy-red" onclick="copyScript()">
                 <i id="btnIcon" class="fa-regular fa-copy"></i>
                 <span id="btnText">Copy</span>
