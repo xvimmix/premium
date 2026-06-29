@@ -1,13 +1,12 @@
-<div style="display: none;">
+<!--
 --[[
 -->
-</div>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>👀</title>
+    <title>Overdrive Premium</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
@@ -55,12 +54,12 @@
             display: flex;
             gap: 8px;
         }
-        .title-one {
+        .title-happy {
             background: linear-gradient(to right, #ff3b3b, #ff2a2a);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .title-second {
+        .title-script {
             background: linear-gradient(to right, #f1c40f, #f39c12);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -115,7 +114,6 @@
             background-color: #d61f1f;
         }
 
-        /* TOAST THÔNG BÁO TỰ ẨN */
         .toast {
             position: fixed;
             bottom: 20px;
@@ -145,10 +143,10 @@
 </head>
 <body>
     <div class="card">
-        <div class="badge">@brian.2xz on TikTok</div>
+        <div class="badge">OVERDRIVE HUB</div>
         <h1>
-            <span class="title-one">Overdriv</span>
-            <span class="title-second">[Premium]</span>
+            <span class="title-happy">OVERDRIVE</span>
+            <span class="title-script">PREMIUM</span>
         </h1>
         
         <ul>
@@ -158,11 +156,18 @@
         </ul>
 
         <div class="code-box-container">
-            <div class="code-box" id="scriptContent">Generating link...</div>
+            <div class="code-box" id="codeDisplay">Generating link...</div>
             
+            <script>
+                (function() {
+                    const currentUrl = window.location.href.split('?')[0].split('#')[0];
+                    document.getElementById('codeDisplay').textContent = 'loadstring(game:HttpGet("' + currentUrl + '"))()';
+                })();
+            </script>
+
             <button id="copyBtn" class="btn-copy-red">
                 <i id="btnIcon" class="fa-regular fa-copy"></i>
-                <span id="btnText">Copy</span>
+                <span id="btnText">COPY</span>
             </button>
         </div>
     </div>
@@ -173,7 +178,6 @@
     </div>
 
     <script>
-        // Chặn phím tắt và chuột phải bảo vệ giao diện
         document.addEventListener('contextmenu', e => e.preventDefault());
         document.onkeydown = function(e) {
             if (e.keyCode === 123) return false; 
@@ -185,38 +189,29 @@
             const copyBtn = document.getElementById('copyBtn');
             const toastEl = document.getElementById('toast');
             const toastText = document.getElementById('toastText');
-            const scriptTag = document.getElementById('scriptContent');
             const btnText = document.getElementById('btnText');
             const btnIcon = document.getElementById('btnIcon');
 
-            // Tự động gán link loadstring khi trang chạy
             const currentUrl = window.location.href.split('?')[0].split('#')[0];
             const loadstringText = 'loadstring(game:HttpGet("' + currentUrl + '"))()';
-            scriptTag.textContent = loadstringText;
 
-            // Hàm kích hoạt Toast
-            function showToast(message) {
-                toastText.textContent = message;
-                toastEl.classList.add('show');
-                setTimeout(() => {
-                    toastEl.classList.remove('show');
-                }, 2500);
-            }
-
-            // Xử lý sự kiện sao chép bộ nhớ tạm
             copyBtn.addEventListener('click', () => {
                 navigator.clipboard.writeText(loadstringText).then(() => {
-                    btnText.innerText = "Copied!";
+                    btnText.innerText = "COPIED!";
                     btnIcon.className = "fa-solid fa-check";
                     
-                    showToast('Copied to clipboard');
+                    toastText.textContent = 'Copied to clipboard';
+                    toastEl.classList.add('show');
+                    setTimeout(() => { toastEl.classList.remove('show'); }, 2500);
 
                     setTimeout(() => {
-                        btnText.innerText = "Copy";
+                        btnText.innerText = "COPY";
                         btnIcon.className = "fa-regular fa-copy";
                     }, 2000);
                 }).catch(() => {
-                    showToast('Failed to copy!');
+                    toastText.textContent = 'Failed to copy!';
+                    toastEl.classList.add('show');
+                    setTimeout(() => { toastEl.classList.remove('show'); }, 2500);
                 });
             });
         })();
