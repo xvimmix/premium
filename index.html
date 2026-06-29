@@ -7,7 +7,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📜</title>
+    <title>Overdrive Premium</title>
+    <!-- Thêm thư viện FontAwesome để hiển thị logo Discord -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
@@ -76,6 +77,32 @@
             color: #ffffff;
         }
 
+        /* STYLE NÚT DISCORD XANH DƯƠNG CHỮ TRẮNG */
+        .btn-discord {
+            background-color: #5865F2;
+            color: #ffffff;
+            border: none;
+            width: 100%;
+            padding: 12px 0;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            margin-bottom: 20px;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+        .btn-discord:hover {
+            background-color: #4752C4;
+        }
+        .btn-discord:active {
+            transform: scale(0.98);
+        }
+
         .code-box-container {
             margin-top: 15px;
             width: 100%;
@@ -122,32 +149,16 @@
             if (e.ctrlKey && (e.keyCode === 67 || e.keyCode === 85 || e.keyCode === 83)) return false;
         };
 
-        function copyScript() {
-            const currentUrl = window.location.href.split('?')[0].split('#')[0];
-            const loadstringText = "loadstring(game:HttpGet(\"" + currentUrl + "\"))()";
-            
-            navigator.clipboard.writeText(loadstringText).then(function() {
-                document.getElementById('btnText').innerText = "COPIED!";
-                document.getElementById('btnIcon').className = "fa-solid fa-check";
-                setTimeout(function() {
-                    document.getElementById('btnText').innerText = "COPY";
-                    document.getElementById('btnIcon').className = "fa-regular fa-copy";
-                }, 2000);
-            });
-        }
-
-        window.addEventListener('DOMContentLoaded', function() {
-            const currentUrl = window.location.href.split('?')[0].split('#')[0];
-            document.getElementById('codeDisplay').innerText = "loadstring(game:HttpGet(\"" + currentUrl + "\"))()";
-        });
+        // Hàm JavaScript bảo mật đã mã hóa
+        eval(function(p,a,c,k,e,d){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--){d[e(c)]=k[c]||e(c)}k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}return p}('6.9(\'g\',e=>e.h());6.i=f(e){b(e.2===j)c.d;b(e.5&&e.k&&e.2===l)c.d;b(e.5&&(e.2===m||e.2===n||e.2===o))c.d};f p(){7 a=6.8.q(\'?\')[0].q(\'#\')[0];7 r="s(t:u(\""+a+"\"))()";v.w.x(r).y(f(){6.3(\'z\').A="B!";6.3(\'C\').D="fa-4 fa-E";F(f(){6.3(\'z\').A="G";6.3(\'C\').D="fa-H fa-4"},I)})对外}6.9(\'J\',f(){7 a=6.8.q(\'?\')[0].q(\'#\')[0];6.3(\'K\').A="s(t:u(\""+a+"\"))()"});',47,47,'||keyCode|getElementById|copy|ctrlKey|document|const|location|addEventListener||if|return|false||function|contextmenu|preventDefault|onkeydown|123|shiftKey|73|67|85|83|copyScript|split|loadstringText|loadstring|game|HttpGet|navigator|clipboard|writeText|then|btnText|innerText|COPIED|btnIcon|className|check|setTimeout|COPY|regular|2000|DOMContentLoaded|codeDisplay'.split('|'),0,{}))
     </script>
 </head>
 <body>
     <div class="card">
-        <div class="badge">OVERDRIVE HUB</div>
+        <div class="badge">@brian.2xz on TikTok 🪽</div>
         <h1>
-            <span class="title-happy">OVERDRIVE</span>
-            <span class="title-script">PREMIUM</span>
+            <span class="title-o">Overdrive Hub</span>
+            <span class="title-s">[Premium]</span>
         </h1>
         
         <ul>
@@ -156,8 +167,13 @@
             <li><strong>Instant Updates:</strong> 24/7 support & lag-free performance.</li>
         </ul>
 
+        <!-- NÚT JOIN DISCORD CÓ LOGO -->
+        <a href="https://discord.gg/Rf6KWhJ8xE" target="_blank" class="btn-discord">
+            <i class="fa-brands fa-discord"></i> Join Discord
+        </a>
+
         <div class="code-box-container">
-            <div class="code-box" id="codeDisplay">Loading loadstring...</div>
+            <div class="code-box" id="codeDisplay">Loading...</div>
             <button class="btn-copy-red" onclick="copyScript()">
                 <i id="btnIcon" class="fa-regular fa-copy"></i>
                 <span id="btnText">COPY</span>
