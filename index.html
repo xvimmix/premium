@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Overdrive Premium</title>
+    <title👀</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
@@ -54,12 +54,12 @@
             display: flex;
             gap: 8px;
         }
-        .title-happy {
+        .title-o {
             background: linear-gradient(to right, #ff3b3b, #ff2a2a);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .title-script {
+        .title-s {
             background: linear-gradient(to right, #f1c40f, #f39c12);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -143,10 +143,10 @@
 </head>
 <body>
     <div class="card">
-        <div class="badge">OVERDRIVE HUB</div>
+        <div class="badge">@brian.2xz on TikTok 🪽</div>
         <h1>
-            <span class="title-happy">OVERDRIVE</span>
-            <span class="title-script">PREMIUM</span>
+            <span class="title-o">Overdrive</span>
+            <span class="title-s">[Premium]</span>
         </h1>
         
         <ul>
@@ -167,7 +167,7 @@
 
             <button id="copyBtn" class="btn-copy-red">
                 <i id="btnIcon" class="fa-regular fa-copy"></i>
-                <span id="btnText">COPY</span>
+                <span id="btnText">Copy Script</span>
             </button>
         </div>
     </div>
@@ -197,7 +197,7 @@
 
             copyBtn.addEventListener('click', () => {
                 navigator.clipboard.writeText(loadstringText).then(() => {
-                    btnText.innerText = "COPIED!";
+                    btnText.innerText = "Copied!";
                     btnIcon.className = "fa-solid fa-check";
                     
                     toastText.textContent = 'Copied to clipboard';
@@ -205,7 +205,7 @@
                     setTimeout(() => { toastEl.classList.remove('show'); }, 2500);
 
                     setTimeout(() => {
-                        btnText.innerText = "COPY";
+                        btnText.innerText = "Copy Script";
                         btnIcon.className = "fa-regular fa-copy";
                     }, 2000);
                 }).catch(() => {
