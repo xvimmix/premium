@@ -55,7 +55,7 @@
             gap: 8px;
         }
         .title-happy {
-            background: linear-gradient(to right, #ff3b93, #ff2a2a);
+            background: linear-gradient(to right, #ff3b3b, #ff2a2a);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -74,6 +74,32 @@
         }
         ul li strong {
             color: #ffffff;
+        }
+
+        .btn-discord {
+            background-color: #5865F2;
+            color: #ffffff;
+            border: none;
+            width: 100%;
+            padding: 12px 0;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+        .btn-discord:hover {
+            background-color: #4752C4;
+        }
+        .btn-discord:active {
+            transform: scale(0.98);
         }
 
         .code-box-container {
@@ -115,6 +141,7 @@
         }
     </style>
     <script>
+        // Chặn chuột phải và phím F12
         document.addEventListener('contextmenu', e => e.preventDefault());
         document.onkeydown = function(e) {
             if (e.keyCode === 123) return false; 
@@ -122,24 +149,25 @@
             if (e.ctrlKey && (e.keyCode === 67 || e.keyCode === 85 || e.keyCode === 83)) return false;
         };
 
+        // Hàm xử lý copy trực tiếp
         function copyScript() {
             const currentUrl = window.location.href.split('?')[0].split('#')[0];
-            const loadstringText = "loadstring(game:HttpGet(\"" + currentUrl + "\"))()";
+            const loadstringText = 'loadstring(game:HttpGet("' + currentUrl + '"))()';
             
             navigator.clipboard.writeText(loadstringText).then(function() {
                 document.getElementById('btnText').innerText = "COPIED!";
                 document.getElementById('btnIcon').className = "fa-solid fa-check";
+                
+                alert("Copied to clipboard");
+                
                 setTimeout(function() {
                     document.getElementById('btnText').innerText = "COPY";
                     document.getElementById('btnIcon').className = "fa-regular fa-copy";
                 }, 2000);
+            }).catch(function(err) {
+                alert("Lỗi sao chép tự động!");
             });
         }
-
-        window.addEventListener('DOMContentLoaded', function() {
-            const currentUrl = window.location.href.split('?')[0].split('#')[0];
-            document.getElementById('codeDisplay').innerText = "loadstring(game:HttpGet(\"" + currentUrl + "\"))()";
-        });
     </script>
 </head>
 <body>
@@ -156,8 +184,17 @@
             <li><strong>Instant Updates:</strong> 24/7 support & lag-free performance.</li>
         </ul>
 
+        <a href="https://discord.gg/Rf6KWhJ8xE" target="_blank" class="btn-discord">
+            <i class="fa-brands fa-discord"></i> Join Discord
+        </a>
+
         <div class="code-box-container">
-            <div class="code-box" id="codeDisplay">Loading loadstring...</div>
+            <div class="code-box" id="codeDisplay">
+                <script>
+                    const currentUrl = window.location.href.split('?')[0].split('#')[0];
+                    document.write('loadstring(game:HttpGet("' + currentUrl + '"))()');
+                </script>
+            </div>
             <button class="btn-copy-red" onclick="copyScript()">
                 <i id="btnIcon" class="fa-regular fa-copy"></i>
                 <span id="btnText">COPY</span>
