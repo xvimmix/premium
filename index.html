@@ -1,12 +1,13 @@
-<!--
+<div style="display: none;">
 --[[
 -->
+</div>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title👀</title>
+    <title>Overdrive Premium</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
@@ -33,7 +34,6 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
             text-align: left;
             box-sizing: border-box;
-            position: relative;
         }
         .badge {
             background-color: #2b1616;
@@ -54,12 +54,12 @@
             display: flex;
             gap: 8px;
         }
-        .title-o {
-            background: linear-gradient(to right, #ff3b3b, #ff2a2a);
+        .title-happy {
+            background: linear-gradient(to right, #ff3b93, #ff2a2a);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .title-s {
+        .title-script {
             background: linear-gradient(to right, #f1c40f, #f39c12);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -113,40 +113,41 @@
         .btn-copy-red:hover {
             background-color: #d61f1f;
         }
-
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background-color: #1c1921;
-            border: 1px solid #ff2a2a;
-            color: #ffffff;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 500;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-            transition: transform 0.3s ease-in-out, opacity 0.3s;
-            opacity: 0;
-            z-index: 9999;
-            pointer-events: none;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .toast.show {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
-        }
     </style>
+    <script>
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.onkeydown = function(e) {
+            if (e.keyCode === 123) return false; 
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 73) return false; 
+            if (e.ctrlKey && (e.keyCode === 67 || e.keyCode === 85 || e.keyCode === 83)) return false;
+        };
+
+        function copyScript() {
+            const currentUrl = window.location.href.split('?')[0].split('#')[0];
+            const loadstringText = "loadstring(game:HttpGet(\"" + currentUrl + "\"))()";
+            
+            navigator.clipboard.writeText(loadstringText).then(function() {
+                document.getElementById('btnText').innerText = "COPIED!";
+                document.getElementById('btnIcon').className = "fa-solid fa-check";
+                setTimeout(function() {
+                    document.getElementById('btnText').innerText = "COPY";
+                    document.getElementById('btnIcon').className = "fa-regular fa-copy";
+                }, 2000);
+            });
+        }
+
+        window.addEventListener('DOMContentLoaded', function() {
+            const currentUrl = window.location.href.split('?')[0].split('#')[0];
+            document.getElementById('codeDisplay').innerText = "loadstring(game:HttpGet(\"" + currentUrl + "\"))()";
+        });
+    </script>
 </head>
 <body>
     <div class="card">
-        <div class="badge">@brian.2xz on TikTok 🪽</div>
+        <div class="badge">OVERDRIVE HUB</div>
         <h1>
-            <span class="title-o">Overdrive</span>
-            <span class="title-s">[Premium]</span>
+            <span class="title-happy">OVERDRIVE</span>
+            <span class="title-script">PREMIUM</span>
         </h1>
         
         <ul>
@@ -156,66 +157,13 @@
         </ul>
 
         <div class="code-box-container">
-            <div class="code-box" id="codeDisplay">Generating link...</div>
-            
-            <script>
-                (function() {
-                    const currentUrl = window.location.href.split('?')[0].split('#')[0];
-                    document.getElementById('codeDisplay').textContent = 'loadstring(game:HttpGet("' + currentUrl + '"))()';
-                })();
-            </script>
-
-            <button id="copyBtn" class="btn-copy-red">
+            <div class="code-box" id="codeDisplay">Loading loadstring...</div>
+            <button class="btn-copy-red" onclick="copyScript()">
                 <i id="btnIcon" class="fa-regular fa-copy"></i>
-                <span id="btnText">Copy Script</span>
+                <span id="btnText">COPY</span>
             </button>
         </div>
     </div>
-
-    <div id="toast" class="toast">
-        <i class="fa-solid fa-circle-check" style="color: #ff2a2a;"></i>
-        <span id="toastText">Copied to clipboard</span>
-    </div>
-
-    <script>
-        document.addEventListener('contextmenu', e => e.preventDefault());
-        document.onkeydown = function(e) {
-            if (e.keyCode === 123) return false; 
-            if (e.ctrlKey && e.shiftKey && e.keyCode === 73) return false; 
-            if (e.ctrlKey && (e.keyCode === 67 || e.keyCode === 85 || e.keyCode === 83)) return false;
-        };
-
-        (function () {
-            const copyBtn = document.getElementById('copyBtn');
-            const toastEl = document.getElementById('toast');
-            const toastText = document.getElementById('toastText');
-            const btnText = document.getElementById('btnText');
-            const btnIcon = document.getElementById('btnIcon');
-
-            const currentUrl = window.location.href.split('?')[0].split('#')[0];
-            const loadstringText = 'loadstring(game:HttpGet("' + currentUrl + '"))()';
-
-            copyBtn.addEventListener('click', () => {
-                navigator.clipboard.writeText(loadstringText).then(() => {
-                    btnText.innerText = "Copied!";
-                    btnIcon.className = "fa-solid fa-check";
-                    
-                    toastText.textContent = 'Copied to clipboard';
-                    toastEl.classList.add('show');
-                    setTimeout(() => { toastEl.classList.remove('show'); }, 2500);
-
-                    setTimeout(() => {
-                        btnText.innerText = "Copy Script";
-                        btnIcon.className = "fa-regular fa-copy";
-                    }, 2000);
-                }).catch(() => {
-                    toastText.textContent = 'Failed to copy!';
-                    toastEl.classList.add('show');
-                    setTimeout(() => { toastEl.classList.remove('show'); }, 2500);
-                });
-            });
-        })();
-    </script>
 </body>
 </html>
 <!--
