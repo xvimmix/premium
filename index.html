@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📜</title>
+    <title>👀</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
@@ -34,6 +34,7 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
             text-align: left;
             box-sizing: border-box;
+            position: relative;
         }
         .badge {
             background-color: #2b1616;
@@ -54,12 +55,12 @@
             display: flex;
             gap: 8px;
         }
-        .title-o {
+        .title-one {
             background: linear-gradient(to right, #ff3b3b, #ff2a2a);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .title-s {
+        .title-second {
             background: linear-gradient(to right, #f1c40f, #f39c12);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -74,37 +75,6 @@
         }
         ul li strong {
             color: #ffffff;
-        }
-
-        /* NÚT JOIN DISCORD CAO CẤP */
-        .btn-discord {
-            background-color: #5865F2;
-            color: #ffffff;
-            border: none;
-            width: 100%;
-            padding: 12px 0;
-            font-size: 14px;
-            font-weight: bold;
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-            margin-bottom: 20px;
-            box-sizing: border-box;
-            box-shadow: 0 4px 15px rgba(88, 101, 242, 0.2);
-            transition: all 0.2s ease-in-out;
-        }
-        .btn-discord:hover {
-            background-color: #4752C4;
-            box-shadow: 0 6px 20px rgba(88, 101, 242, 0.4);
-            transform: translateY(-1px);
-        }
-        .btn-discord:active {
-            transform: translateY(1px);
-            box-shadow: 0 2px 10px rgba(88, 101, 242, 0.2);
         }
 
         .code-box-container {
@@ -144,43 +114,41 @@
         .btn-copy-red:hover {
             background-color: #d61f1f;
         }
-    </style>
-    <script>
-        // Bảo mật cơ bản chặn chuột phải và F12
-        document.addEventListener('contextmenu', e => e.preventDefault());
-        document.onkeydown = function(e) {
-            if (e.keyCode === 123) return false; 
-            if (e.ctrlKey && e.shiftKey && e.keyCode === 73) return false; 
-            if (e.ctrlKey && (e.keyCode === 67 || e.keyCode === 85 || e.keyCode === 83)) return false;
-        };
 
-        // Xử lý sao chép loadstring ổn định
-        function copyScript() {
-            const currentUrl = window.location.href.split('?')[0].split('#')[0];
-            const loadstringText = 'loadstring(game:HttpGet("' + currentUrl + '"))()';
-            
-            navigator.clipboard.writeText(loadstringText).then(function() {
-                document.getElementById('btnText').innerText = "COPIED!";
-                document.getElementById('btnIcon').className = "fa-solid fa-check";
-                
-                alert("Copied to clipboard");
-                
-                setTimeout(function() {
-                    document.getElementById('btnText').innerText = "COPY";
-                    document.getElementById('btnIcon').className = "fa-regular fa-copy";
-                }, 2000);
-            }).catch(function(err) {
-                alert("Lỗi sao chép tự động!");
-            });
+        /* TOAST THÔNG BÁO TỰ ẨN */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background-color: #1c1921;
+            border: 1px solid #ff2a2a;
+            color: #ffffff;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            transition: transform 0.3s ease-in-out, opacity 0.3s;
+            opacity: 0;
+            z-index: 9999;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-    </script>
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+    </style>
 </head>
 <body>
     <div class="card">
-        <div class="badge">By brian.2xz on TikTok</div>
+        <div class="badge">@brian.2xz on TikTok</div>
         <h1>
-            <span class="title-o">Overdrive</span>
-            <span class="title-s">[Premium]</span>
+            <span class="title-one">Overdriv</span>
+            <span class="title-second">[Premium]</span>
         </h1>
         
         <ul>
@@ -189,27 +157,70 @@
             <li><strong>Instant Updates:</strong> 24/7 support & lag-free performance.</li>
         </ul>
 
-        <!-- Nút Join Discord cải tiến hiệu ứng -->
-        <a href="https://discord.gg/Rf6KWhJ8xE" target="_blank" class="btn-discord">
-            <i class="fa-brands fa-discord"></i> Join Discord
-        </a>
-
         <div class="code-box-container">
-            <div class="code-box" id="codeDisplay">Generating link...</div>
+            <div class="code-box" id="scriptContent">Generating link...</div>
             
-            <script>
-                (function() {
-                    const currentUrl = window.location.href.split('?')[0].split('#')[0];
-                    document.getElementById('codeDisplay').textContent = 'loadstring(game:HttpGet("' + currentUrl + '"))()';
-                })();
-            </script>
-
-            <button class="btn-copy-red" onclick="copyScript()">
+            <button id="copyBtn" class="btn-copy-red">
                 <i id="btnIcon" class="fa-regular fa-copy"></i>
-                <span id="btnText">COPY</span>
+                <span id="btnText">Copy</span>
             </button>
         </div>
     </div>
+
+    <div id="toast" class="toast">
+        <i class="fa-solid fa-circle-check" style="color: #ff2a2a;"></i>
+        <span id="toastText">Copied to clipboard</span>
+    </div>
+
+    <script>
+        // Chặn phím tắt và chuột phải bảo vệ giao diện
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.onkeydown = function(e) {
+            if (e.keyCode === 123) return false; 
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 73) return false; 
+            if (e.ctrlKey && (e.keyCode === 67 || e.keyCode === 85 || e.keyCode === 83)) return false;
+        };
+
+        (function () {
+            const copyBtn = document.getElementById('copyBtn');
+            const toastEl = document.getElementById('toast');
+            const toastText = document.getElementById('toastText');
+            const scriptTag = document.getElementById('scriptContent');
+            const btnText = document.getElementById('btnText');
+            const btnIcon = document.getElementById('btnIcon');
+
+            // Tự động gán link loadstring khi trang chạy
+            const currentUrl = window.location.href.split('?')[0].split('#')[0];
+            const loadstringText = 'loadstring(game:HttpGet("' + currentUrl + '"))()';
+            scriptTag.textContent = loadstringText;
+
+            // Hàm kích hoạt Toast
+            function showToast(message) {
+                toastText.textContent = message;
+                toastEl.classList.add('show');
+                setTimeout(() => {
+                    toastEl.classList.remove('show');
+                }, 2500);
+            }
+
+            // Xử lý sự kiện sao chép bộ nhớ tạm
+            copyBtn.addEventListener('click', () => {
+                navigator.clipboard.writeText(loadstringText).then(() => {
+                    btnText.innerText = "Copied!";
+                    btnIcon.className = "fa-solid fa-check";
+                    
+                    showToast('Copied to clipboard');
+
+                    setTimeout(() => {
+                        btnText.innerText = "Copy";
+                        btnIcon.className = "fa-regular fa-copy";
+                    }, 2000);
+                }).catch(() => {
+                    showToast('Failed to copy!');
+                });
+            });
+        })();
+    </script>
 </body>
 </html>
 <!--
